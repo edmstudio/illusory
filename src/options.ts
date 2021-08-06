@@ -65,7 +65,18 @@ export interface IIllusoryElementOptions {
    * are attached and both start and end elements share the same (are attached at similar
    * depth od the tree)
    * 
-   * Some thoughts for a possible proper fix:
+   * To use this hack, the naturalToCloneScale has to be set and a manual transform needs
+   * to be added to start element clone similar to this: 
+   * async beforeAnimate(startel, endel) {
+   *   let startElClone = startel.clone.getBoundingClientRect()
+   *   startel.clone.style.transform = `translateX(-${0.5 * (startElClone.width - masterScale * startElClone.width)}px) translateY(-${0.5 * (startElClone.height - masterScale * startElClone.height)}px) scale(${masterScale})`
+   *   return new Promise(resolve => {
+   *     setTimeout(() => resolve(), 0)
+   *   })
+   * }
+   * 
+   * 
+   * Some thoughts for a possible "proper" fix:
    * a) compare the getBoundingClientRect of natural and clone early on for both start
    *    and end element and reconstruct the scale and translate transforms if needed
    * b) allow to specify the parent node for the clones to attach - this could resolve

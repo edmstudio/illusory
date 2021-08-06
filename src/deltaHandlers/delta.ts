@@ -22,7 +22,7 @@ const DELTA_PASS_THROUGH_HANDLER: DeltaHandlerFunction = (_, __, thisStyle) => t
 
 function getDelta(start: IllusoryElement, end: IllusoryElement): IDelta {
   const origin = parseTransformOrigin(start.getStyle('transformOrigin'))
-  const naturalToCloneScale = start.naturalElementScale
+  const naturalToCloneScale = start.naturalToCloneScale
 
   const scaleX = naturalToCloneScale * end.rect.width / start.rect.width
   const scaleY = naturalToCloneScale * end.rect.height / start.rect.height
