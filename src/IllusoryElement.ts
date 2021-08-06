@@ -51,6 +51,12 @@ export class IllusoryElement {
    */
   isAttached = false
 
+  /**
+   * [EDM] Natural element scale transform aggregate relative to clone
+   * attached to the document root node.
+   */
+  naturalToCloneScale: IIllusoryElementOptions['naturalToCloneScale']
+
   _shouldIgnoreTransparency: IIllusoryElementOptions['ignoreTransparency']
 
   get _ignoreTransparency() {
@@ -130,6 +136,8 @@ export class IllusoryElement {
     this.initialStyleAttributeValue = this.natural.getAttribute('style')
 
     this._shouldIgnoreTransparency = options?.ignoreTransparency ?? DEFAULT_OPTIONS.element.ignoreTransparency
+
+    this.naturalToCloneScale = options?.naturalToCloneScale ?? DEFAULT_OPTIONS.element.naturalToCloneScale
 
     this.natural.style.transition = 'none'
     this.natural.style.animation = 'none'

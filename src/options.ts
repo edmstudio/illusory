@@ -56,6 +56,27 @@ export interface IIllusoryElementOptions {
    * @default false
    */
   attachImmediately?: boolean
+  /**
+   * [EDM] A scale transform aggregate applied to the natural element in relation
+   * to the clone attached to document root.
+   * 
+   * This is a quick hack specific to our use case where there are itermediary scaling
+   * transforms applied on the tree between where the clone and natural elements
+   * are attached and both start and end elements share the same (are attached at similar
+   * depth od the tree)
+   * 
+   * Some thoughts for a possible proper fix:
+   * a) compare the getBoundingClientRect of natural and clone early on for both start
+   *    and end element and reconstruct the scale and translate transforms if needed
+   * b) allow to specify the parent node for the clones to attach - this could resolve
+   *    masking issues (currently the morph "overflows" a natural element's parent-based
+   *    overflow: hidden mask) and also scrolling issues for setups with no scroll events
+   *    (scrolling "manually" by positioning or transforms). But it's getting a bit complex
+   *    with respect to a) and the use cases may be limited?
+   * 
+   * @default 1
+   */
+   naturalToCloneScale: number
 }
 
 export interface IIllusoryOptions<T = Partial<IIllusoryElementOptions>> {
@@ -121,7 +142,8 @@ export interface IIllusoryOptions<T = Partial<IIllusoryElementOptions>> {
 export const DEFAULT_OPTIONS: IIllusoryOptions<IIllusoryElementOptions> = {
   element: {
     includeChildren: true,
-    ignoreTransparency: ['img']
+    ignoreTransparency: ['img'],
+    naturalToCloneScale: 1
   },
   zIndex: 1,
   compositeOnly: false,
